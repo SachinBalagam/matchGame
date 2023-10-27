@@ -1,3 +1,4 @@
+import {Component} from 'react'
 import './App.css'
 
 // These are the lists used in the application. You can move them to any component needed.
@@ -247,6 +248,182 @@ const imagesList = [
 ]
 
 // Replace your code here
-const App = () => <div>Hello World</div>
+class App extends Component {
+  state = {
+    activeImageTab: imagesList[0].id,
+    activeImageUrl: imagesList[0].imageUrl,
+    activeTab: tabsList[0].tabId,
+    ifCorrect: true,
+    score: 0,
+    time: 60,
+  }
+
+  componentDidMount() {
+    this.timer = setInterval(this.tick, 1000)
+  }
+
+  tick = () => {
+    const {time} = this.state
+    this.setState(prevState => ({time: prevState.time - 1}))
+    if (time === 1) {
+      clearInterval(this.timer)
+    }
+  }
+
+  getImageUrl = () => {
+    const random = Math.floor(Math.random() * (imagesList.length - 1))
+    const imageTab = imagesList[random].id
+    const url = imagesList[random].imageUrl
+    this.setState({activeImageUrl: url, activeImageTab: imageTab})
+  }
+
+  onActiveTabChange = event => {
+    this.setState({activeTab: event.target.value})
+  }
+
+  getFilteredList = () => {
+    const {activeTab} = this.state
+    const filteredProjects = imagesList.filter(
+      each => each.category === activeTab,
+    )
+    return filteredProjects
+  }
+
+  renderPlayGameView = () => {
+    const {activeImageUrl, activeTab, activeImageTab} = this.state
+    const filteredList = this.getFilteredList()
+
+    return (
+      <>
+        <img src={activeImageUrl} alt="match" className="active-image" />
+        <ul className="list-container" value={activeTab}>
+          {tabsList.map(each => {
+            const isActive = each.tabId === activeTab
+            const active = isActive ? 'active' : ''
+            return (
+              <li key={each.tabId} className="eachTab">
+                <button
+                  type="button"
+                  className={`button ${active}`}
+                  onClick={this.onActiveTabChange}
+                  value={each.tabId}
+                >
+                  {each.displayText}
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+        <ul className="thumbnail-container">
+          {filteredList.map(each => {
+            const onThumbnailClick = () => {
+              const isCorrect = each.id === activeImageTab
+              this.setState({ifCorrect: isCorrect})
+              if (isCorrect) {
+                this.getImageUrl()
+                this.setState(prevState => ({
+                  score: prevState.score + 1,
+                }))
+              } else {
+                this.setState({time: 0})
+                clearInterval(this.timer)
+              }
+            }
+
+            return (
+              <li key={each.id}>
+                <button
+                  type="button"
+                  className="thumbnail-button"
+                  onClick={onThumbnailClick}
+                >
+                  <img
+                    src={each.thumbnailUrl}
+                    alt="thumbnail"
+                    className="thumbnail"
+                  />
+                </button>
+              </li>
+            )
+          })}
+        </ul>
+      </>
+    )
+  }
+
+  onClickPlayAgain = () => {
+    this.setState({
+      activeImageTab: imagesList[0].id,
+      activeImageUrl: imagesList[0].imageUrl,
+      activeTab: tabsList[0].tabId,
+      ifCorrect: true,
+      score: 0,
+      time: 60,
+    })
+    this.timer = setInterval(this.tick, 1000)
+  }
+
+  renderScoreCardView = () => {
+    const {score} = this.state
+    return (
+      <div className="score-card">
+        <img
+          src="https://assets.ccbp.in/frontend/react-js/match-game-trophy.png"
+          alt="trophy"
+          className="trophy"
+        />
+        <p>Your Score</p>
+        <p>{score}</p>
+        <button
+          type="button"
+          className="play-again-button"
+          onClick={this.onClickPlayAgain}
+        >
+          <img
+            src="https://assets.ccbp.in/frontend/react-js/match-game-play-again-img.png"
+            alt="reset"
+          />
+          <p>PLAY AGAIN</p>
+        </button>
+      </div>
+    )
+  }
+
+  render() {
+    const {time, score, ifCorrect} = this.state
+    return (
+      <div>
+        <nav>
+          <ul className="header-container">
+            <li>
+              <img
+                src="https://assets.ccbp.in/frontend/react-js/match-game-website-logo.png"
+                alt="website logo"
+                className="website-logo"
+              />
+            </li>
+            <li className="score-time-card">
+              <p>Score: </p>
+              <p>{score}</p>
+              <div className="time-card">
+                <img
+                  src="https://assets.ccbp.in/frontend/react-js/match-game-timer-img.png"
+                  alt="timer"
+                  className="timer"
+                />
+                <p>{time} sec</p>
+              </div>
+            </li>
+          </ul>
+        </nav>
+        <div className="container">
+          {ifCorrect && time > 0
+            ? this.renderPlayGameView()
+            : this.renderScoreCardView()}
+        </div>
+      </div>
+    )
+  }
+}
 
 export default App

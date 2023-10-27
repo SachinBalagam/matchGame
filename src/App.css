@@ -10,3 +10,107 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+.container {
+  background-image: url('https://assets.ccbp.in/frontend/react-js/match-game-bg.png');
+  min-height: 100vh;
+  background-size: cover;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.active-image {
+  width: 600px;
+}
+.list-container {
+  list-style-type: none;
+  display: flex;
+  padding-left: 0;
+}
+.eachTab {
+  margin: 10px;
+}
+.button {
+  background-color: transparent;
+  border: 0;
+  color: #ffffff;
+  font-size: 20px;
+  cursor: pointer;
+}
+.thumbnail-container {
+  padding-left: 0;
+  display: flex;
+  flex-wrap: wrap;
+  width: 700px;
+  list-style-type: none;
+}
+.thumbnail {
+  margin: 10px;
+  width: 100px;
+}
+.active {
+  color: #fec653;
+  text-decoration: underline;
+  text-decoration-color: #fec653;
+}
+.thumbnail-button {
+  background-color: transparent;
+  border: 0;
+  cursor: pointer;
+}
+.score-card {
+  background-image: url('https://assets.ccbp.in/frontend/react-js/match-game-score-card-lg-bg.png');
+  background-size: cover;
+  min-height: 80vh;
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Roboto';
+  color: #ffffff;
+}
+.trophy {
+  width: 300px;
+}
+.play-again-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #cf60c8;
+  border: 0;
+  border-radius: 10px;
+  color: #ffffff;
+  height: 40px;
+  width: 150px;
+  cursor: pointer;
+}
+.header-container {
+  background-color: #2c0e3a;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #ffffff;
+  font-family: 'Roboto';
+  padding: 20px;
+  margin: 0;
+}
+.website-logo {
+  width: 150px;
+}
+
+.score-time-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.time-card {
+  display: flex;
+  align-items: center;
+  margin-left: 30px;
+}
+.timer {
+  width: 30px;
+}
